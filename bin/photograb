@@ -1,0 +1,6 @@
+require 'photograb'
+
+puts "This product uses the Flickr API but is not endorsed or certified by Flickr."
+
+pg = Photograb.new
+pg.scrape

@@ -1,0 +1,8 @@
+#Application consumer key
+consumer_key : __
+secret : __
+
+  #flicker endpoints
+endpoint : "http://api.flickr.com/services"
+endpoint_secure : "https://secure.flickr.com/services"
+
