@@ -3,26 +3,27 @@ require 'yaml'
 module PhotoGrab
 
   class Config
-      @config
+    @config
+
     def initialize
-      file_location = File.expand_path('config.yml')
-      @config = YAML::load(File.read_file(file_location))
+      file_location = File.expand_path('./config.yml')
+      @config = YAML::load(File.read(file_location))
     end
+
     def consumer_key
-      return @config[:consumer_key]
+      @config["consumer_key"]
     end
 
     def secret
-      return @config[:secret]
+      @config["secret"]
     end
 
     def endpoint
-      return @config[:endpoint]
+      @config["endpoint"]
     end
 
     def endpoint_secure
-      return @config[:endpoint_secure]
-
+      @config["endpoint_secure"]
     end
   end
 end

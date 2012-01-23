@@ -1,11 +1,14 @@
+#  A Ruby class to scrape Flickr and feed data to R for processing
+
 require 'faraday'
 
-#  A Ruby class to scrape Flickr and feed data to R for processing
 module PhotoGrab 
-  autoload :OAuth, './photograb/oauth'
-  autoload :Config, './photograb/config'
+  autoload :OAuth, './lib/photograb/oauth'
+  autoload :Config, './lib/photograb/config'
 
   class << self
+    @config
+
     def initialize
 
     end
@@ -13,19 +16,18 @@ module PhotoGrab
     def config
       @config ||= PhotoGrab::Config.new
     end
-  end
 
-  def scrape
-    url = PhotoGrab.config.secure_endpoint
-    conn = Faraday.new(:url => url) do |builder|
-      builder.use PhotoGrab::OAuth
+    def scrape
+      url = PhotoGrab.config.endpoint_secure
+      conn = Faraday.new(:url => url) do |builder|
+        builder.use PhotoGrab::OAuth
+      end
+      conn.get('/')
     end
-    conn.get('/')
   end
 end
 
 
 if __FILE__ == $0
-  pg = PhotoGrab.new
-  pg.scrape
+  PhotoGrab.scrape
 end
