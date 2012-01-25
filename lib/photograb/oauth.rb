@@ -1,4 +1,5 @@
 require 'simple_oauth'
+require 'oauth'
 require 'faraday'
 
 #  A Ruby class to scrape Flickr and feed data to R for processing
@@ -11,23 +12,19 @@ module PhotoGrab
     end
 
     def call(env)
-      params = env[:body] || {}
-      signature_params = params
-      params.each do |key, value|
-        signature_params = {} if value.respond_to?(:content_type)
+      if not @auth_token
+        FlickRaw.api_key = PhotoGrab.config.consumer_key
+        FlickRaw.shared_secret = PhotoGrab.config.secret
+
+        token = flickr.get_request_token
+        auth_url = flickr.get_authorize_url(token['oauth_token'], {:perms => 'read'})
+
+        puts "Open this url in your process to complete the authication process : #{auth_url}"
+        puts "Copy here the number given when you complete the process."
+        verify = gets.strip
       end
 
-      oauth = Simple_OAuth::Consumer(PhotoGrab.config.consumer_key, PhotoGrab.config.secret, { :site => Photgrab.config.endpoint_secure })
-
-      @request_token = oauth.get_request_token
-      @access_token = @request_token.get_access_token
-
-      oauth = Simple_OAuth::Header.new(
-        env[:method],
-        env[:url],
-        signature_params,
-        @options
-      )
+      @app.call(env)
     end
   end
 end

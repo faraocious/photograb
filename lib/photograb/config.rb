@@ -25,6 +25,14 @@ module PhotoGrab
     def endpoint_secure
       @config["endpoint_secure"]
     end
+
+    def username
+      @config["username"]
+    end
+
+    def password
+      @config["password"]
+    end
   end
 end
 

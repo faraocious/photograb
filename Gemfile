@@ -5,6 +5,8 @@ source "http://rubygems.org"
 gem 'simple_oauth'
 gem 'faraday'
 gem 'rspec'
-#gem 'oauth'
+gem 'oauth'
+gem 'flickraw'
+
 
 # gem "rails"

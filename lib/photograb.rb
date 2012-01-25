@@ -1,6 +1,7 @@
 #  A Ruby class to scrape Flickr and feed data to R for processing
 
 require 'faraday'
+require 'flickraw'
 
 module PhotoGrab 
   autoload :OAuth, './lib/photograb/oauth'
@@ -22,7 +23,7 @@ module PhotoGrab
       conn = Faraday.new(:url => url) do |builder|
         builder.use PhotoGrab::OAuth
       end
-      conn.get('/')
+      puts conn.get('/').body
     end
   end
 end
